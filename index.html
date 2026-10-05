@@ -858,6 +858,14 @@ function draw() {
 }
 
 /* ---------------- главный цикл ---------------- */
+// отладочный режим (?debug): состояние игры пишем в заголовок вкладки —
+// так автотесты могут читать его без скриншотов
+if (location.search.indexOf('debug') >= 0) {
+  window.onerror = function (msg) { document.title = 'ERR ' + msg; };
+  setInterval(function () {
+    document.title = 'DBG ' + state + ' ' + JSON.stringify(gameState) + ' dead=' + deadTimer;
+  }, 250);
+}
 function frame(t) {
   const dt = Math.min(0.05, (t - lastT) / 1000 || 0.016);
   lastT = t;
